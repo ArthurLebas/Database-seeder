@@ -1,0 +1,16 @@
+{
+  "name": "database_seeder",
+  "version": "1.0.0",
+  "scripts": {
+    "initDB": "node app/initDB.js",
+    "seedDB": "node app/seeding.js "
+  },
+  "dependencies": {
+    "@faker-js/faker": "^8.0.2",
+    "bcrypt": "^5.1.0",
+    "debug": "^4.3.4",
+    "dotenv": "^16.1.4",
+    "openai": "^3.2.1",
+    "pg": "^8.11.0"
+  }
+}
