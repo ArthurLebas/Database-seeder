@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const createData = require('./createData')
 const { Client } = require('pg');
 
@@ -13,7 +15,6 @@ const databaseURL = `postgresql://${databaseUser}:${databasePassword}@${database
 const seedDB = (async () => {
 
     const users = await createData.createUsers()
-    const usersPhotos = await createData.createUsersPhoto()
 
     const client = new Client({
         connectionString: databaseURL,
@@ -24,7 +25,7 @@ const seedDB = (async () => {
 
     console.log('Clean Table')
 
-    await client.query('TRUNCATE TABLE "user", "photo" RESTART IDENTITY');
+    await client.query('TRUNCATE TABLE "user" RESTART IDENTITY')
 
     const queries = []
     let count = 0
@@ -35,36 +36,19 @@ const seedDB = (async () => {
         const query = client.query(
             `
             INSERT INTO "user"
-            ("email","first_name", "last_name","date_of_birth", "password","region", "city", "description")
+            ("email","first_name", "last_name", "date_of_birth", "password", "country", "region", "city", "description", "photo")
             VALUES
-            ($1, $2, $3, $4, $5, $6, $7, $8)
+            ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
             RETURNING *
             `,
-            [user.email, user.first_name, user.last_name, user.date_of_birth, user.password, user.region, user.city, user.description],
+            [user.email, user.first_name, user.last_name, user.date_of_birth, user.password, user.country, user.region, user.city, user.description, user.photo],
         );
         queries.push(query)
     });
-    count = 0
-    usersPhotos.forEach((photo) => {
-        count += 1
-        console.log("insert photo n°" + count)
-        const query = client.query(
-            `
-            INSERT INTO "photo"
-            ("path", "user_id")
-            VALUES
-            ($1, $2)
-            RETURNING *
-            `,
-            [photo.path, photo.user_id],
-        );
-        queries.push(query)
-    });
-    count = 0
 
     await Promise.all(queries)
 
-    console.log('Insertion Done')
+    console.log('All operations executed successfully. Disconnecting from the database.')
 
     client.end()
 

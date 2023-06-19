@@ -27,16 +27,10 @@ CREATE TABLE IF NOT EXISTS "user" (
   "description" TEXT,
   "date_of_birth" TIMESTAMPTZ,
   "password" TEXT NOT NULL,
+  "country" TEXT NOT NULL,
   "region" TEXT NOT NULL,
-  "city" TEXT,
-  "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
-  "updated_at" TIMESTAMPTZ
-);
-
-CREATE TABLE IF NOT EXISTS "photo" (
-  "id" SERIAL PRIMARY KEY,
-  "path" TEXT NOT NULL,
-  "user_id" INT REFERENCES "user"("id") ON DELETE CASCADE,
+  "city" TEXT NOT NULL,
+  "photo" TEXT NOT NULL,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
   "updated_at" TIMESTAMPTZ
 );
@@ -62,6 +56,7 @@ const initDB = (async () => {
         console.error('Failed to execute the SQL script:', err)
         return
     } finally {
+        console.log('All operations executed successfully. Disconnecting from the database.')
         client.end()
     }
 })
