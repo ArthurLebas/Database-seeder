@@ -1,11 +1,16 @@
 # Database Seeder
 
-This project is a script designed to generate and import fake data into a PostgreSQL database.
-It uses the OpenAI and Unsplash APIs, so it is necessary to create an account on these two platforms and get your own API keys.
+This project consists of scripts designed to generate and import fake data into a PostgreSQL database, specifically targeting the 'user' table. It utilizes the OpenAI and Unsplash APIs to create realistic but fictional data entries for users. To run the project, it's necessary to have accounts on both these platforms and obtain your personal API keys. This setup is ideal for testing, development, or demonstration purposes where populated user data is required
 
 ## Configuration
 
-Before running the script, create a PostgreSQL database and ensure that you configure the environment variables correctly in the `.env` file based on the `.env.example` file.
+Before running the script, please follow these steps:
+
+1. **Create a PostgreSQL database.**
+2. **Create a `.env` file at the root of the project.** This file should be based on the provided `.env.example` file. Copy the contents of `.env.example` into your new `.env` file and update the values to match your environment and credentials.
+3. **Ensure that all environment variables in the `.env` file are correctly configured.** These variables include your database connection settings and API keys for OpenAI and Unsplash.
+
+By setting up these configurations, you ensure that the script can connect to your database and access the necessary APIs to generate and import data.
 
 ## Installation
 
@@ -15,22 +20,29 @@ Before running the script, create a PostgreSQL database and ensure that you conf
 
     > `npm install`
 
-## Usage
+## Third-Party APIs
 
-Ensure you have an active Internet connection, as the script interacts with third-party APIs to generate data.
+This script uses the following third-party APIs. **It is crucial to be aware of their respective rate limits**:
 
-### Third-Party APIs (Important: CHECK THE RATE LIMITS)
+- **Unsplash API** for images: [Visit Unsplash Developers](https://unsplash.com/developers)
+- **OpenAI API** for data generation: [Visit OpenAI Platform](https://platform.openai.com/)
 
-    > Unsplash ---> https://unsplash.com/developers
-    > OpenAI   ---> https://platform.openai.com/
+## Database Setup and Data Seeding
 
-To create the table "user" in your database use the following command:
+1. **Create the 'user' Table**:  
+   To initialize your database and create the 'user' table, run the following command:
 
-   > `node initDB.js`
+```shell
+node initDB.js
+```
 
-To import the fake data into your database, use the following command:
+2. **Import Fake Data**:  
+After setting up the 'user' table, you can import the fake data into your database with this command:
 
-   > `node seeding.js`
+```shell
+node seeding.js
+```
+
 
 ## Licence
 
